@@ -45,6 +45,7 @@ class Minesweeper:
             return False
         if self.revealed[y][x]:
             return True
+        self.revealed[y][x] = True
         self.cells_to_reveal -= 1
         if self.count_mines_nearby(x, y) == 0:
             for dx in [-1, 0, 1]:
@@ -53,6 +54,8 @@ class Minesweeper:
                     if 0 <= nx < self.width and 0 <= ny < self.height and not self.revealed[ny][nx]:
                         self.reveal(nx, ny)
         return True
+    def check_win(self):
+        return self.cells_to_reveal == 0
 
     def play(self):
         while True:
