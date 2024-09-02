@@ -3,12 +3,17 @@ class Checkbook:
         self.balance = 0.0
 
     def deposit(self, amount):
+        if amount < 0:
+            print("Please enter a positive amount.")
+            return
         self.balance += amount
         print("Deposited ${:.2f}".format(amount))
         print("Current Balance: ${:.2f}".format(self.balance))
 
     def withdraw(self, amount):
-        if amount > self.balance:
+        if amount < 0:
+            print("Please enter a positive amount.")
+        elif amount > self.balance:
             print("Insufficient funds to complete the withdrawal.")
         else:
             self.balance -= amount
@@ -21,28 +26,22 @@ class Checkbook:
 def main():
     cb = Checkbook()
     while True:
-        action = input("What would you like to do? (deposit, withdraw, balance, exit): ")
-        if action.lower() == 'exit':
+        action = input("What would you like to do? (deposit, withdraw, balance, exit): ").strip().lower()
+        if action == 'exit':
             break
-        elif action.lower() == 'deposit':
+        elif action == 'deposit':
             try:
                 amount = float(input("Enter the amount to deposit: $"))
-                if amount < 0:
-                    print("Please enter a positive amount.")
-                else:
-                    cb.deposit(amount)
+                cb.deposit(amount)
             except ValueError:
                 print("Invalid input. Please enter a numeric value.")
-        elif action.lower() == 'withdraw':
+        elif action == 'withdraw':
             try:
                 amount = float(input("Enter the amount to withdraw: $"))
-                if amount < 0:
-                    print("Please enter a positive amount.")
-                else:
-                    cb.withdraw(amount)
+                cb.withdraw(amount)
             except ValueError:
                 print("Invalid input. Please enter a numeric value.")
-        elif action.lower() == 'balance':
+        elif action == 'balance':
             cb.get_balance()
         else:
             print("Invalid command. Please try again.")
